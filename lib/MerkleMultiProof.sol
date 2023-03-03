@@ -57,9 +57,17 @@ library MerkleMultiProof {
                 } else {
                     Node memory node;
                     node.k_index = div_floor(current_layer[index].k_index, 2);
-                    node.node = _optimizedHash(
-                            current_layer[index].node,
-                            current_layer[index + 1].node);
+
+                    if (current_layer[index].node < current_layer[index + 1].node) {
+                        node.node = _optimizedHash(
+                                current_layer[index].node,
+                                current_layer[index + 1].node);
+                    } else {
+                        node.node = _optimizedHash(
+                                current_layer[index + 1].node,
+                                current_layer[index].node);
+                    }
+
                     next_layer[p] = node;
                     unchecked {
                         p++;
